@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model core_value {
+  id          Int     @id @default(autoincrement()) @db.UnsignedInt
+  title       String  @db.VarChar(500)
+  description String? @db.Text
+  icon_url    String? @db.VarChar(500)
+}
+
+model feature {
+  id          Int     @id @default(autoincrement()) @db.UnsignedInt
+  title       String  @db.VarChar(500)
+  description String? @db.Text
+  image_url   String? @db.VarChar(500)
+  button_text String? @db.VarChar(100)
+  button_url  String? @db.VarChar(500)
+}
+
+model hero {
+  id          Int     @id @default(autoincrement()) @db.UnsignedInt
+  title       String  @db.VarChar(500)
+  subtitle    String  @db.VarChar(500)
+  image_url   String? @db.VarChar(500)
+  button_text String? @db.VarChar(100)
+  button_url  String? @db.VarChar(500)
+  sequence    Int?
+}
+
+model registered_on {
+  id        Int     @id @default(autoincrement()) @db.UnsignedInt
+  name      String? @db.Text
+  image_url String  @db.VarChar(500)
+  sequence  Int?
+}
+
+model top_product {
+  id          Int     @id @default(autoincrement()) @db.UnsignedInt
+  title       String  @db.VarChar(500)
+  description String? @db.Text
+  image_url   String? @db.VarChar(500)
+  button_text String? @db.VarChar(100)
+  button_url  String? @db.VarChar(500)
+}
+
+model social_media {
+  id        Int     @id @default(autoincrement()) @db.UnsignedInt
+  name      String  @db.VarChar(500)
+  url       String  @db.VarChar(500)
+  image_url String? @db.VarChar(500)
+}
