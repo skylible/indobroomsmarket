@@ -30,6 +30,18 @@ p {
   color: #939393;
 }
 
+th {
+  font-family: 'Rubik', sans-serif;;
+  size: 16px;
+  color: #939393;
+}
+
+td {
+  font-family: 'Rubik', sans-serif;;
+  size: 16px;
+  color: #939393;
+}
+
 .container {
   max-width: 720px;
 }
