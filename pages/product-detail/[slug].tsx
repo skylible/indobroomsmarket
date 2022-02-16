@@ -119,7 +119,7 @@ const ProductPage = (props: {
                 <h2 className="text-black text-4xl">{product.name}</h2>
                 <p className="mt-5">{product.description}</p>
                 <div className="w-fit mt-5 py-2 px-4 rounded-md bg-theme-text">
-                  <Link href={"/product-detail/" + product.slug}>
+                  <Link href={"/contact"}>
                     <a>
                       <p className="text-white w-auto">{"Contact Us"}</p>
                     </a>
