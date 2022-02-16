@@ -7,6 +7,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { capitalize } from "..";
 import { Header } from "../../components/Header";
 import { products } from "../../data/product";
+import { socialMedias } from "../../data/social-media";
 
 const brandName = "Indo Brooms Market";
 
@@ -64,7 +65,7 @@ const ProductPage = (props: {
           <div
             className={"w-full h-72"}
             style={{
-              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/farm-banner-2.jpg)`,
+              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/bg.jpeg)`,
             }}
           >
             <div className="flex flex-col flex-grow h-full justify-end">
@@ -88,7 +89,7 @@ const ProductPage = (props: {
 
       <footer>
         <div
-          className="flex justify-center py-32 w-full"
+          className="flex justify-center py-14 md:py-24 w-full"
           style={{
             background:
               "linear-gradient(to right, #2F80ED 0%, #43A7F0 51%, #58CCFF 100%)",
@@ -100,15 +101,17 @@ const ProductPage = (props: {
             <div className=" w-full flex flex-col md:flex-row h-auto text-white">
               {/* About Us */}
               <div className="px-3 md:w-1/5">
-                <h2 className="mb-6 text-white">{brandName.toUpperCase()}</h2>
+                <h2 className="mb-1 md:mb-6 text-white">
+                  {brandName.toUpperCase()}
+                </h2>
                 <p className="text-white mb-4">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
 
-                <h2 className="mb-6 text-white">SOCIAL MEDIA</h2>
-                <div className="flex flex-col md:flex-row">
-                  {props.socialMedias.map((socialMedia, idx) => {
+                <h2 className="mb-1 md:mb-6 text-white">SOCIAL MEDIA</h2>
+                <div className="flex flex-row">
+                  {socialMedias.map((socialMedia, idx) => {
                     return (
                       <div className="mx-1" key={idx}>
                         <Image
@@ -124,14 +127,14 @@ const ProductPage = (props: {
               </div>
 
               {/* Product */}
-              <div className="px-3 md:w-1/5">
-                <h2 className="mb-6 text-white">PRODUCT</h2>
+              <div className="mt-3 md:mt-0 px-3 md:w-1/5">
+                <h2 className="mb-1 md:mb-6 text-white">PRODUCT</h2>
                 <ul>
-                  {props.topProducts.map((product, idx) => {
+                  {products.map((product, idx) => {
                     return (
-                      <Link key={idx} href={product.button_url || ""}>
+                      <Link key={idx} href={"/product/" + product.slug}>
                         <a>
-                          <li>{capitalize(product.title)}</li>
+                          <li>{capitalize(product.name)}</li>
                         </a>
                       </Link>
                     );
@@ -140,7 +143,7 @@ const ProductPage = (props: {
               </div>
 
               {/* Features */}
-              <div className="px-3 md:w-1/5">
+              {/* <div className="px-3 md:w-1/5">
                 <h2 className="mb-6 text-white">FEATURES</h2>
                 <ul>
                   <Link href={"/"}>
@@ -149,7 +152,7 @@ const ProductPage = (props: {
                     </a>
                   </Link>
                 </ul>
-              </div>
+              </div> */}
 
               {/* Image */}
               <div className="md:w-2/5 flex flex-row justify-center">

@@ -114,7 +114,7 @@ const Home: ReactNode = () => {
 
       <footer>
         <div
-          className="flex justify-center py-14 md:py-32 w-full"
+          className="flex justify-center py-14 md:py-24 w-full"
           style={{
             background:
               "linear-gradient(to right, #2F80ED 0%, #43A7F0 51%, #58CCFF 100%)",
@@ -155,7 +155,7 @@ const Home: ReactNode = () => {
                 <ul>
                   {products.map((product, idx) => {
                     return (
-                      <Link key={idx} href={'/product/' + product.slug}>
+                      <Link key={idx} href={'/product-detail/' + product.slug}>
                         <a>
                           <li>{capitalize(product.name)}</li>
                         </a>

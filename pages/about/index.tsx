@@ -1,11 +1,14 @@
-import { PrismaClient, social_media, top_product } from "@prisma/client";
-import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { capitalize } from "..";
 import { Header } from "../../components/Header";
+import { whatWeDos } from "../../data/what-we-do";
+import { InView } from "react-intersection-observer";
+import React from "react";
+import { products } from "../../data/product";
+import { socialMedias } from "../../data/social-media";
 
 const brandName = "Indo Brooms Market";
 
@@ -13,24 +16,7 @@ const brandName = "Indo Brooms Market";
 const containerClass =
   "w-full p-4 mb-12 sm:max-w-540px md:max-w-768px lg:max-w-960px xl:max-w-1140px align-center";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const prisma = new PrismaClient();
-  const [topProducts, socialMedias] = await Promise.all([
-    prisma.top_product.findMany(),
-    prisma.social_media.findMany(),
-  ]);
-  return {
-    props: {
-      topProducts,
-      socialMedias,
-    },
-  };
-};
-
-const ContactPage = (props: {
-  topProducts: top_product[];
-  socialMedias: social_media[];
-}) => {
+const ContactPage = () => {
   return (
     <div>
       <Head>
@@ -63,7 +49,7 @@ const ContactPage = (props: {
           <div
             className={"w-full h-72"}
             style={{
-              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/farm-banner-2.jpg)`,
+              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/bg.jpeg)`,
             }}
           >
             <div className="flex flex-col flex-grow h-full justify-end">
@@ -121,6 +107,10 @@ const ContactPage = (props: {
                 </div>
               </div>
             </div>
+
+            <div className="mt-20">
+              <WhatWeDo />
+            </div>
           </div>
         </div>
       </main>
@@ -147,7 +137,7 @@ const ContactPage = (props: {
 
                 <h2 className="mb-6 text-white">SOCIAL MEDIA</h2>
                 <div className="flex flex-col md:flex-row">
-                  {props.socialMedias.map((socialMedia, idx) => {
+                  {socialMedias.map((socialMedia, idx) => {
                     return (
                       <div className="mx-1" key={idx}>
                         <Image
@@ -166,11 +156,11 @@ const ContactPage = (props: {
               <div className="px-3 md:w-1/5">
                 <h2 className="mb-6 text-white">PRODUCT</h2>
                 <ul>
-                  {props.topProducts.map((product, idx) => {
+                  {products.map((product, idx) => {
                     return (
-                      <Link key={idx} href={product.button_url || ""}>
+                      <Link key={idx} href={'/product-detail/' + product.slug || ""}>
                         <a>
-                          <li>{capitalize(product.title)}</li>
+                          <li>{capitalize(product.name)}</li>
                         </a>
                       </Link>
                     );
@@ -203,6 +193,74 @@ const ContactPage = (props: {
           </div>
         </div>
       </footer>
+    </div>
+  );
+};
+
+const WhatWeDo = () => {
+  const cards = whatWeDos.map((whatWeDo, idx) => {
+    const Card = () => {
+      const [isInView, setIsInView] = React.useState(false);
+      let cardClass = "";
+      if (isInView) cardClass = "fade-in";
+      else cardClass = "fade-out";
+      return (
+        <InView
+          triggerOnce={true}
+          onChange={(inView, entry) => {
+            setIsInView(inView);
+          }}
+        >
+          <div className={"flex flex-col h-auto w-full rounded " + cardClass}>
+            <div className="w-full mb-6 h-32 relative rounded">
+              <Image
+                className="rounded"
+                src={whatWeDo.image_url || ""}
+                layout={"fill"}
+                objectFit={"cover"}
+                alt={whatWeDo.title}
+              />
+            </div>
+            <div className="w-full">
+              <h5 className="text-xl mb-2">{whatWeDo.title}</h5>
+            </div>
+            <div className="w-full mb-4">
+              <p>{whatWeDo.description}</p>
+            </div>
+            {/* <div className="flex flex-row justify-start">
+              <div
+                className="w-fit bg-theme-text rounded-md mb-4 border-2 border-theme-text"
+                style={{
+                  paddingTop: 6,
+                  paddingBottom: 6,
+                  paddingLeft: 12,
+                  paddingRight: 12,
+                }}
+              >
+                <Link href={feature.button_url || ""}>
+                  <a>
+                    <p className="text-white">{feature.button_text}</p>
+                  </a>
+                </Link>
+              </div>
+            </div> */}
+          </div>
+        </InView>
+      );
+    };
+    return <Card key={idx} />;
+  });
+
+  return (
+    <div className="flex w-full h-auto justify-center">
+      <div className={"h-full w-auto " + containerClass}>
+        <h2 className="text-black text-3xl">WHAT WE DO</h2>
+        <div className="flex flex-col h-full w-full items-center">
+          <div className="mt-12 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 w-full h-auto">
+            {cards}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
