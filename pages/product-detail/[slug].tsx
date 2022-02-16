@@ -129,7 +129,7 @@ const ProductPage = (props: {
             </div>
 
             {/* Specs */}
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full mt-10">
               <table className="table-auto">
                 <thead>
                   <tr>

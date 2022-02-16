@@ -1,11 +1,12 @@
-import { PrismaClient, social_media, top_product } from "@prisma/client";
-import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { capitalize } from "..";
 import { Header } from "../../components/Header";
+import { socialMedias } from "../../data/social-media";
+import { products } from "../../data/product";
+import { teamMembers } from "../../data/team-member";
 
 const brandName = "Indo Brooms Market";
 
@@ -13,24 +14,7 @@ const brandName = "Indo Brooms Market";
 const containerClass =
   "w-full p-4 mb-12 sm:max-w-540px md:max-w-768px lg:max-w-960px xl:max-w-1140px align-center";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const prisma = new PrismaClient();
-  const [topProducts, socialMedias] = await Promise.all([
-    prisma.top_product.findMany(),
-    prisma.social_media.findMany(),
-  ]);
-  return {
-    props: {
-      topProducts,
-      socialMedias,
-    },
-  };
-};
-
-const ContactPage = (props: {
-  topProducts: top_product[];
-  socialMedias: social_media[];
-}) => {
+const ContactPage = () => {
   return (
     <div>
       <Head>
@@ -63,24 +47,61 @@ const ContactPage = (props: {
           <div
             className={"w-full h-72"}
             style={{
-              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/farm-banner-2.jpg)`,
+              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/bg.jpeg)`,
             }}
           >
             <div className="flex flex-col flex-grow h-full justify-end">
               <div className="mb-16">
                 <p className="text-theme-text text-center text-xs font-bold">
-                  OUR
+                  Get In Touch
                 </p>
                 <h2 className="text-5xl text-center text-white mt-2">
-                  PRODUCT
+                  CONTACT
                 </h2>
               </div>
             </div>
           </div>
           {/* End Top Image */}
 
-          {/* Content */}
-          
+          {/* Team */}
+          <div className={"w-fit mt-10 flex flex-col px-0 sm:px-12- md:px-44"}>
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {teamMembers.map((member, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="flex flex-col shadow-md py-10 px-14 rounded-md"
+                  >
+                    <div className="flex flex-row justify-center">
+                      <div className="relative rounded-full w-32 h-32">
+                        <Image
+                          src={member.image_url}
+                          alt={member.name}
+                          layout="fill"
+                          className="rounded-full"
+                        />
+                      </div>
+                    </div>
+                    <h3 className="mt-4 text-center text-2xl">{member.name}</h3>
+                    <span className="mt-1 text-center text-sm text-gray-600">
+                      {member.role}
+                    </span>
+                    <p className="mt-4 text-center">{member.bio}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Address */}
+            <div className={"w-fit mt-10 px-0 " + containerClass}>
+              <div className="flex flex-col">
+                <h4 className="text-theme-text text-2xl">ADDRESS</h4>
+                <p className="mt-2">Isi alamat disini</p>
+              </div>
+            </div>
+
+            <div className="mt-10"></div>
+          </div>
         </div>
       </main>
 
@@ -106,7 +127,7 @@ const ContactPage = (props: {
 
                 <h2 className="mb-6 text-white">SOCIAL MEDIA</h2>
                 <div className="flex flex-col md:flex-row">
-                  {props.socialMedias.map((socialMedia, idx) => {
+                  {socialMedias.map((socialMedia, idx) => {
                     return (
                       <div className="mx-1" key={idx}>
                         <Image
@@ -125,11 +146,14 @@ const ContactPage = (props: {
               <div className="px-3 md:w-1/5">
                 <h2 className="mb-6 text-white">PRODUCT</h2>
                 <ul>
-                  {props.topProducts.map((product, idx) => {
+                  {products.map((product, idx) => {
                     return (
-                      <Link key={idx} href={product.button_url || ""}>
+                      <Link
+                        key={idx}
+                        href={"/product-detail/" + product.slug || ""}
+                      >
                         <a>
-                          <li>{capitalize(product.title)}</li>
+                          <li>{capitalize(product.name)}</li>
                         </a>
                       </Link>
                     );
