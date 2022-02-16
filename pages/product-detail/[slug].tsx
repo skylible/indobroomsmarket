@@ -155,6 +155,36 @@ const ProductPage = (props: {
                 </tbody>
               </table>
             </div>
+
+            {/* Secondary Specs */}
+            {product.other_specs?.length ? (
+              <div className="flex flex-col w-full mt-10">
+                <table className="table-auto">
+                  <thead>
+                    <tr>
+                      <th className="text-white bg-theme-text py-3">
+                        SPECIFICATION
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ backgroundColor: "#bdeaff" }}>
+                    {product.other_specs.map((spec, idx) => {
+                      const bgColor = idx % 2 ? "rgba(0, 0, 0, 0.05)" : "";
+                      return (
+                        <tr key={idx}>
+                          <td
+                            className={"text-gray-900 font-normal p-3 "}
+                            style={{ backgroundColor: bgColor }}
+                          >
+                            {spec}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="mt-10"></div>
