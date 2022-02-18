@@ -1,4 +1,3 @@
-import { PrismaClient, social_media, top_product } from "@prisma/client";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -8,7 +7,7 @@ import { capitalize } from "..";
 import { Header } from "../../components/Header";
 import { Product, products } from "../../data/product";
 import { Carousel } from "react-responsive-carousel";
-import { socialMedias } from "../../data/social-media";
+import { SocialMedia, socialMedias } from "../../data/social-media";
 
 const brandName = "Indo Brooms Market";
 
@@ -24,8 +23,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const prisma = new PrismaClient();
-  const [socialMedias] = await Promise.all([prisma.social_media.findMany()]);
   const slug = context.params?.slug as string;
   const product = products.find((product) => product.slug === slug);
 
@@ -37,7 +34,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       products,
       product,
-      socialMedias,
+      socialMedias
     },
   };
 };
@@ -45,7 +42,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const ProductPage = (props: {
   products: Product[];
   product: Product;
-  socialMedias: social_media[];
+  socialMedias: SocialMedia[];
 }) => {
   const product = props.product;
   return (

@@ -1,4 +1,3 @@
-import { PrismaClient, social_media, top_product } from "@prisma/client";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -15,24 +14,7 @@ const brandName = "Indo Brooms Market";
 const containerClass =
   "w-full p-4 mb-12 sm:max-w-540px md:max-w-768px lg:max-w-960px xl:max-w-1140px align-center";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const prisma = new PrismaClient();
-  const [topProducts, socialMedias] = await Promise.all([
-    prisma.top_product.findMany(),
-    prisma.social_media.findMany(),
-  ]);
-  return {
-    props: {
-      topProducts,
-      socialMedias,
-    },
-  };
-};
-
-const ProductPage = (props: {
-  topProducts: top_product[];
-  socialMedias: social_media[];
-}) => {
+const ProductPage = () => {
   return (
     <div>
       <Head>
